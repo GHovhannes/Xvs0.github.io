@@ -1,0 +1,248 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>XvsO</title>
+<style>
+#new{
+width:100px;
+height:75px;
+background-color: #071BC9;
+font-size: 30px;
+color:white;
+}
+#area {
+    width: 650px;
+}
+.row{
+display:flex;
+}
+.vandak {
+    width: 200px;
+    height:200px;
+	display:flex;
+	justify-content: center;
+    align-items: center;
+	font-size:75px;
+    border: 1px solid black;
+}
+
+.vandak:hover {
+    background-color: #F1F1F1;
+}
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<button id="new" onclick="f1()">New Game</button>
+    <center>
+        <div id="area">
+		<div class="row">
+			<div class="vandak" data-num = "0"></div>
+			<div class="vandak" data-num = "1"></div>
+			<div class="vandak" data-num = "2"></div>
+		</div>
+		<div class="row">
+			<div class="vandak" data-num = "3"></div>
+			<div class="vandak" data-num = "4"></div>
+			<div class="vandak" data-num = "5"></div>
+		</div>
+		<div class="row">
+			<div class="vandak" data-num = "6"></div>
+			<div class="vandak" data-num = "7"></div>
+			<div class="vandak" data-num = "8"></div>
+		</div>
+		</div>
+	</center>
+       
+        <script>
+		function f1(){
+			location.reload();
+		}
+var stop = false
+
+var data = document.querySelectorAll("[data-num]")
+
+var arr = [null, null, null, null, null, null, null, null, null]
+
+var funcX = function(a, b, c){
+	var result = arr[a] + arr[b] + arr[c] 
+	
+		if (result == "xxx" || result == "ooo"){
+			return result;
+		}
+	
+	    if (result == "xxnull"){
+			return ["x", c]
+		}
+		if (result == "xnullx"){
+			return ["x", b]
+		}
+		if (result == "nullxx"){
+			return ["x", a]
+		}
+		if (result == "oonull"){
+			return ["o", c]
+		}
+		if (result == "onullo"){
+			return ["o", b]
+		}
+		if (result == "nulloo"){
+			return ["o", a]
+		}
+	}
+
+
+var win = function(a, b, c){
+	data[a].style.color = "red"
+	data[b].style.color = "red"
+	data[c].style.color = "red"
+	
+	stop = true
+}
+
+var ifWin = function(){
+	for (var i = 0; i < 3; i++){
+		var result = funcX(i, i + 3, i + 6)
+		
+		if (result === "xxx" || result === "ooo"){
+			win(i, i + 3, i + 6)
+		}
+	}
+	
+	for (var i = 0; i <= 6; i +=3){
+		var result = funcX(i, i + 1, i + 2)
+		
+		if (result === "xxx" || result === "ooo"){
+			win(i, i + 1, i + 2)
+		}
+	}
+	
+	result = funcX(0, 4, 8)
+	if (result === "xxx" || result === "ooo"){
+		win(0, 4, 8)
+	}
+	
+	result = funcX(2, 4, 6)
+	if (result === "xxx" || result === "ooo"){
+		win(2, 4, 6)
+	}	
+}
+
+var funcO = function(){
+	
+	for (var i = 0; i < 3; i++){
+		var result = funcX(i, i + 3, i + 6)
+		
+		if (typeof(result) === "object" && result[0] === "o"){
+			data[result[1]].innerHTML = "o"
+			arr[result[1]] = "o"
+			return
+		}
+	}
+	
+	for (var i = 0; i <= 6; i +=3){
+		var result = funcX(i, i + 1, i + 2)
+		
+		if (typeof(result) === "object" && result[0] === "o"){
+			data[result[1]].innerHTML = "o"
+			arr[result[1]] = "o"
+			return
+		}
+	}
+	
+	result = funcX(0, 4, 8)
+	if (typeof(result) === "object" && result[0] === "o"){
+		data[result[1]].innerHTML = "o"
+		arr[result[1]] = "o"
+		return
+	}
+	
+	result = funcX(2, 4, 6)
+	if (typeof(result) === "object" && result[0] === "o"){
+		data[result[1]].innerHTML = "o"
+		arr[result[1]] = "o"
+		return
+	}	
+	
+
+	for (var i = 0; i < 3; i++){
+		var result = funcX(i, i + 3, i + 6)
+		
+		if (typeof(result) === "object" && result[0] === "x"){
+			data[result[1]].innerHTML = "o"
+			arr[result[1]] = "o"
+			return
+		}
+	}
+	
+	for (var i = 0; i <= 6; i +=3){
+		var result = funcX(i, i + 1, i + 2)
+		
+		if (typeof(result) === "object" && result[0] === "x"){
+			data[result[1]].innerHTML = "o"
+			arr[result[1]] = "o"
+			return
+		}
+	}
+	
+	result = funcX(0, 4, 8)
+	if (typeof(result) === "object" && result[0] === "x"){
+		data[result[1]].innerHTML = "o"
+		arr[result[1]] = "o"
+		return
+	}
+	
+	result = funcX(2, 4, 6)
+	if (typeof(result) === "object" && result[0] === "x"){
+		data[result[1]].innerHTML = "o"
+		arr[result[1]] = "o"
+		return
+	}
+	
+	var Arr = []
+	
+	for(var i = 0; i < 9; i++){
+		if (arr[i] === null){
+			Arr.push(i)
+		}
+	}
+	
+	var rand = Math.floor(Math.random() * Arr.length)
+	
+	var random = Arr[rand]
+	
+	data[random].innerHTML = "o"
+	arr[random] = "o"	
+}
+
+$('.vandak').click(function(paraga){
+	if (stop === true){return}
+	
+	if (paraga.target.innerHTML == ""){
+		paraga.target.innerHTML = "x"
+		
+		arr[paraga.target.dataset.num] = "x"
+		
+		//console.log (arr)
+		
+	}else{
+		return
+	}
+	
+	ifWin()
+	
+	if (stop === true){return}
+	
+	funcO()
+	
+	ifWin()
+})
+		</script>
+
+</body>
+</html>
+
+
+
